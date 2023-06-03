@@ -1,0 +1,246 @@
+using System;
+
+namespace JogoParaFaculdade
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            new Sistema().Jogo();
+        }
+    }
+
+    class Sistema
+    {
+        string[] ClassesDosHeroi = {"Assassino", "Templario" };
+        string[] ItensLoja = { "Acabou","Espada", "Poção",};
+        int VidaHeroi;
+        int AtaqueHeroi;
+        int EnergiaHeroi;
+        int InteligenciaHeroi;
+        int MoedaHeroi;
+        int nivelHeroi;
+        string VestimentaDoPersonagem;
+        string ArmasDopersonagem;
+        string NomeDoPersonagem;
+        
+        int RespostaDaEnergia;
+        int RespostaPerguntaUmClasse;
+        int RespostaDaLojaContinuarComprando;
+
+        int VidaMonstro;
+        int AtaqueMonstro;
+
+        public void EscolhaSuaClasse()
+        {
+            Console.WriteLine("Qual é o seu nome? :");
+            NomeDoPersonagem = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Olá, " + NomeDoPersonagem + ", você entrará em uma jornada e para isso precisamos saber quel guerreiro você será!");
+            Console.WriteLine("Faremos algumas perguntas para determinar a sua classe!");
+            Console.WriteLine("Você prefere ser agil com baixa resistência ou lento mas com grande força vital?");
+            Console.WriteLine("Escolha 0 para a primeira opção ou 1 para a segunda opção: ");
+            Console.Write("Escreva aqui ao lado: ");
+            RespostaPerguntaUmClasse = int.Parse(Console.ReadLine());
+            Console.Clear();
+            switch (RespostaPerguntaUmClasse)
+            {
+                case 0:
+                    VidaHeroi = 80;
+                    AtaqueHeroi = 15;
+                    EnergiaHeroi = 10;
+                    InteligenciaHeroi = 100;
+                    MoedaHeroi = 150;
+                    nivelHeroi = 0;
+                    VestimentaDoPersonagem = "Vestimenta Furtiva";
+                    ArmasDopersonagem = "Adaga do Primeiro assasino";
+                    Console.WriteLine("=================================================================================================");
+                    Console.WriteLine("Você será um " + ClassesDosHeroi[RespostaPerguntaUmClasse]);
+                    Console.WriteLine("Seus atributos serão: ");
+                    Console.WriteLine(" | Vida: " + VidaHeroi + " | Força: " + AtaqueHeroi + " | Moeda: " + MoedaHeroi + " | Nivel: " + nivelHeroi);
+                    Console.WriteLine("=================================================================================================");
+                    break;
+                case 1:
+                    VidaHeroi = 120;
+                    AtaqueHeroi = 10;
+                    EnergiaHeroi = 12;
+                    InteligenciaHeroi = 80;
+                    MoedaHeroi = 100;
+                    nivelHeroi = 0;
+                    VestimentaDoPersonagem = "Armadura de Combate";
+                    ArmasDopersonagem = "Espada de Odin";
+                    Console.WriteLine("=================================================================================================");
+                    Console.WriteLine("Você será um " + ClassesDosHeroi[RespostaPerguntaUmClasse]);
+                    Console.WriteLine("Seus atributos serão: ");
+                    Console.WriteLine(" | Vida: " + VidaHeroi + " | Força: " + AtaqueHeroi + " | Moeda: " + MoedaHeroi + " | Nivel: " + nivelHeroi);
+                    Console.WriteLine("=================================================================================================");
+                    break;
+                default:
+                    Console.WriteLine("Não possuímos essa classe no momento: ");
+                    break;
+            }
+        }
+
+        public void Monstro()
+        {
+            AtaqueMonstro = 5;
+            VidaMonstro = 50;
+        }
+
+        public void AtaqueDoHeroi()
+        {
+            VidaMonstro = VidaMonstro - AtaqueHeroi;
+        }
+
+        public void AtaqueDoHeroiComEspecial()
+        {
+            VidaMonstro = VidaMonstro - AtaqueHeroi + 5;
+
+        }
+
+        public void AtaqueDoMontro()
+        {
+            Console.WriteLine("=================================================================================================");
+            VidaHeroi -= AtaqueMonstro;            
+        }
+
+        public void Combate()
+        {
+            Console.Write("Deseja batalhar? 1 -sim 2 - Não: ");
+            int ContinuarBatalhando = int.Parse(Console.ReadLine());
+            while(VidaHeroi > 0 && VidaMonstro > 0 && ContinuarBatalhando == 1)
+            {
+               if(EnergiaHeroi >= 9)
+                {
+                    Console.WriteLine("Você possui  " + EnergiaHeroi + " de energia. Gostaria de usar para um ataque Crítico? Mas saiba que vai consumir -10 de sua energia");
+                    Console.WriteLine("1- Para usar");
+                    Console.WriteLine("2- Para não usar");
+                    RespostaDaEnergia = int.Parse(Console.ReadLine());
+                    if(RespostaDaEnergia == 1)
+                    {
+                        AtaqueDoHeroiComEspecial();
+                        AtaqueDoMontro();
+                        EnergiaHeroi -= 10;
+                        if(VidaHeroi > 0 && VidaMonstro > 0)
+                        {
+                            Console.WriteLine("Você esta com vida :" + VidaHeroi);
+                            Console.WriteLine("Monstro esta com vida :" + VidaMonstro);
+                            Console.Write("Deseja batalhar? 1 -sim 2 - Não: ");
+                            ContinuarBatalhando = int.Parse(Console.ReadLine());
+                        }
+                        else
+                        {
+                            Console.WriteLine("A batalha acabou");
+                            ContinuarBatalhando = 2;
+                        }
+                    }
+                    else
+                    {
+                        AtaqueDoHeroi();
+                        AtaqueDoMontro();
+                        if (VidaHeroi > 0 && VidaMonstro > 0)
+                        {
+                            Console.WriteLine("Você esta com vida :" + VidaHeroi);
+                            Console.WriteLine("Monstro esta com vida :" + VidaMonstro);
+                            Console.Write("Deseja batalhar? 1 -sim 2 - Não: ");
+                            ContinuarBatalhando = int.Parse(Console.ReadLine());
+                        }
+                        else
+                        {
+                            Console.WriteLine("A batalha acabou");
+                            ContinuarBatalhando = 2;
+                        }
+                    }
+
+                }
+                else 
+                {
+                    AtaqueDoHeroi();
+                    AtaqueDoMontro();
+                    if (VidaHeroi > 0 && VidaMonstro > 0)
+                    {
+                        Console.WriteLine("Você esta com vida :" + VidaHeroi);
+                        Console.WriteLine("Monstro esta com vida :" + VidaMonstro);
+                        Console.Write("Deseja batalhar? 1 -sim 2 - Não: ");
+                        ContinuarBatalhando = int.Parse(Console.ReadLine());
+                    }
+                    else
+                    {
+                        Console.WriteLine("A batalha acabou");
+                        ContinuarBatalhando = 2;
+                    }
+                }
+            }
+            if (VidaMonstro <= 0 && VidaHeroi > 0)
+            {
+                Console.Clear();
+                Console.WriteLine("=================================================================================================");
+                Console.WriteLine("Você Ganhou");
+                Console.WriteLine("Você esta com vida :" + VidaHeroi);
+                Console.WriteLine("Monstro esta com vida :" + 0);
+            }
+            else if (VidaMonstro < 0 && VidaHeroi >= 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Você perdeu");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Você Desistiu da Luta");
+            }
+        }
+
+        public void Loja()
+        {
+
+            Console.WriteLine("Nós estamos na loja. Gostaria de Comprar algo?");
+            Console.WriteLine("1- Sim");
+            Console.WriteLine("2- Não");
+            RespostaDaLojaContinuarComprando = int.Parse(Console.ReadLine());
+            while(RespostaDaLojaContinuarComprando == 1)
+            {
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("Código   |Item   |Preço  |Adiciona       |");
+                Console.WriteLine("1        |Espada |30     |+3 de força    |");
+                Console.WriteLine("2        |Poção  |20     |+50 de Vida    |");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.Write("Coloque aqui o código: ");
+                string Codigo = Console.ReadLine();
+                switch (Codigo)
+                {
+                    case "1":
+                        Console.WriteLine("-------------------------------------------------------------");
+                        Console.WriteLine("Você comprou uma espada");
+                        AtaqueHeroi += 3;
+                        Console.WriteLine("A sua força agora é: " + AtaqueHeroi);
+                        MoedaHeroi -= 30;
+                        Console.WriteLine("-------------------------------------------------------------");
+                        break;
+                    case "2":
+                        Console.WriteLine("-------------------------------------------------------------");
+                        Console.WriteLine("Você comprou uma Poção");
+                        VidaHeroi += 50;
+                        Console.WriteLine("A sua força agora é: " + VidaHeroi);
+                        MoedaHeroi -= 20;
+                        Console.WriteLine("-------------------------------------------------------------");
+                        break;
+                }
+                Console.WriteLine("Você possui " + MoedaHeroi + " de moeda");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("Deseja Compar mais alguma coisa?");
+                RespostaDaLojaContinuarComprando = int.Parse(Console.ReadLine());
+
+            }
+            
+        }
+
+        public void Jogo()
+        {
+            EscolhaSuaClasse();
+            Monstro();
+            Combate();
+            Loja();
+        }
+    }
+}
